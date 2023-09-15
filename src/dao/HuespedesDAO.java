@@ -11,19 +11,20 @@ import java.util.List;
 import modelo.Huespedes;
 
 public class HuespedesDAO {
-	
+
 	final private Connection connection;
-	
+
 	public HuespedesDAO(Connection connection) {
 		this.connection = connection;
 	}
-	
+
 	public Integer guardar(Huespedes huesped) {
 		try {
 			final PreparedStatement statement = connection.prepareStatement(
-					"insert into huespedes " + "(nombre, apellido, fechaNacimiento, nacionalidad, telefono, reserva_id)" + " values(?, ?, ?, ?, ?, ?)",
+					"insert into huespedes " + "(nombre, apellido, fechaNacimiento, nacionalidad, telefono, reserva_id)"
+							+ " values(?, ?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
-			
+
 			try (statement) {
 				statement.setString(1, huesped.getNombre());
 				statement.setString(2, huesped.getApellido());
@@ -31,11 +32,11 @@ public class HuespedesDAO {
 				statement.setString(4, huesped.getNacionalidad());
 				statement.setString(5, huesped.getTelefono());
 				statement.setInt(6, huesped.getReserva_id());
-				
+
 				statement.execute();
-				
+
 				final ResultSet resultSet = statement.getGeneratedKeys();
-				
+
 				try (resultSet) {
 					while (resultSet.next()) {
 						huesped.setId(resultSet.getInt(1));
@@ -43,66 +44,69 @@ public class HuespedesDAO {
 				}
 				return huesped.getId();
 			}
-			
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public Integer eliminar(Integer id) {
 		try {
 			final PreparedStatement statement = connection.prepareStatement("delete from huespedes where id = ?");
-			
+
 			try (statement) {
 				statement.setInt(1, id);
+
 				statement.execute();
-				
+
 				int updateCount = statement.getUpdateCount();
-				
+
 				return updateCount;
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public Integer modificar(Integer id, String nacionalidad, String telefono) {
 		try {
-			final PreparedStatement statement = connection.prepareStatement(
-					"update huespedes set " + "nacionalidad = ?" + ", telefono = ?" + "where id = ?");
-			
+			final PreparedStatement statement = connection
+					.prepareStatement("update huespedes set " + "nacionalidad = ?" + ", telefono = ?" + "where id = ?");
+
 			try (statement) {
 				statement.setString(1, nacionalidad);
 				statement.setString(2, telefono);
 				statement.setInt(3, id);
-				
+
 				return statement.getUpdateCount();
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public List<Huespedes> listarTodos() {
 		List<Huespedes> resultado = new ArrayList<>();
-		
+
 		try {
-			final PreparedStatement statement = connection
-					.prepareStatement("select id, nombre, apellido, fechaNacimiento, nacionalidad, telefono, reserva_id from huespedes");
-			
+			final PreparedStatement statement = connection.prepareStatement(
+					"select id, nombre, apellido, fechaNacimiento, nacionalidad, telefono, reserva_id from huespedes");
+
 			try (statement) {
 				statement.execute();
-				
+
 				final ResultSet resultSet = statement.getResultSet();
-				
+
 				try (resultSet) {
 					while (resultSet.next()) {
-						Huespedes fila = new Huespedes(resultSet.getInt("id"), resultSet.getString("nombre"), resultSet.getString("apellido"),
-								resultSet.getDate("fechaNacimiento"), resultSet.getString("nacionalidad"), resultSet.getString("telefono"), resultSet.getInt("reserva_id"));
-						
+						Huespedes fila = new Huespedes(resultSet.getInt("id"), resultSet.getString("nombre"),
+								resultSet.getString("apellido"), resultSet.getDate("fechaNacimiento"),
+								resultSet.getString("nacionalidad"), resultSet.getString("telefono"),
+								resultSet.getInt("reserva_id"));
+
 						resultado.add(fila);
 					}
-					
+
 					return resultado;
 				}
 			}
@@ -110,12 +114,12 @@ public class HuespedesDAO {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public List<Huespedes> buscarPorParametro(Object parametro) {
 		if (parametro == null) {
 			return null;
 		}
-		List <Huespedes> resultado = new ArrayList<>();
+		List<Huespedes> resultado = new ArrayList<>();
 		try {
 			var string = "";
 			if (parametro.getClass() == String.class) {
@@ -124,10 +128,11 @@ public class HuespedesDAO {
 			if (parametro.getClass() == Integer.class) {
 				string = "id = ?";
 			}
-			String query = "select id, nombre, apellido, fechaNacimiento, nacionalidad, telefono, reserva_id from huespedes where " + string;
-			
+			String query = "select id, nombre, apellido, fechaNacimiento, nacionalidad, telefono, reserva_id from huespedes where "
+					+ string;
+
 			final PreparedStatement statement = connection.prepareStatement(query);
-			
+
 			try (statement) {
 				final ResultSet resultSet;
 				if (parametro.getClass() == String.class) {
@@ -137,22 +142,23 @@ public class HuespedesDAO {
 					statement.setInt(1, (Integer) parametro);
 				}
 				statement.execute();
-				
+
 				resultSet = statement.getResultSet();
-				
+
 				try (resultSet) {
 					while (resultSet.next()) {
-						Huespedes fila = new Huespedes(resultSet.getInt("id"), resultSet.getString("nombre"), resultSet.getString("apellido"),
-								resultSet.getDate("fechaNacimiento"), resultSet.getString("nacionalidad"),
-								resultSet.getString("telefono"), resultSet.getInt("reserva_id"));
-						
+						Huespedes fila = new Huespedes(resultSet.getInt("id"), resultSet.getString("nombre"),
+								resultSet.getString("apellido"), resultSet.getDate("fechaNacimiento"),
+								resultSet.getString("nacionalidad"), resultSet.getString("telefono"),
+								resultSet.getInt("reserva_id"));
+
 						resultado.add(fila);
 					}
-					
+
 					return resultado;
 				}
 			}
-		} catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

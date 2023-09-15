@@ -3,7 +3,7 @@ package modelo;
 import java.sql.Date;
 
 public class Huespedes {
-	
+
 	private Integer id;
 	private String nombre;
 	private String apellido;
@@ -11,7 +11,7 @@ public class Huespedes {
 	private String nacionalidad;
 	private String telefono;
 	private Integer reserva_id;
-	
+
 	public Huespedes(String nombre, String apellido, Date fechaNacimiento, String nacionalidad, String telefono) {
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -66,8 +66,5 @@ public class Huespedes {
 	public String getTelefono() {
 		return telefono;
 	}
-	
-	
-	
-	
+
 }
