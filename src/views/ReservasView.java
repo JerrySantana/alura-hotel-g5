@@ -342,9 +342,9 @@ public class ReservasView extends JFrame {
 
 	@SuppressWarnings("deprecation")
 	protected void calcularValor() {
-		var entrada = LocalDate.of(txtFechaEntrada.getDate().getYear() + 1900, txtFechaEntrada.getDate().getMonth(),
+		var entrada = LocalDate.of(txtFechaEntrada.getDate().getYear() + 1900, txtFechaEntrada.getDate().getMonth() + 1,
 				txtFechaEntrada.getDate().getDate());
-		var salida = LocalDate.of(txtFechaSalida.getDate().getYear() + 1900, txtFechaSalida.getDate().getMonth(),
+		var salida = LocalDate.of(txtFechaSalida.getDate().getYear() + 1900, txtFechaSalida.getDate().getMonth() + 1,
 				txtFechaSalida.getDate().getDate());
 		if (salida.isAfter(entrada)) {
 			var valor = entrada.datesUntil(salida).count() * 100;
@@ -357,9 +357,9 @@ public class ReservasView extends JFrame {
 	@SuppressWarnings("deprecation")
 	protected void reservar() {
 		var entrada = Date.valueOf(LocalDate.of(txtFechaEntrada.getDate().getYear() + 1900,
-				txtFechaEntrada.getDate().getMonth(), txtFechaEntrada.getDate().getDate()));
+				txtFechaEntrada.getDate().getMonth() + 1, txtFechaEntrada.getDate().getDate()));
 		var salida = Date.valueOf(LocalDate.of(txtFechaSalida.getDate().getYear() + 1900,
-				txtFechaSalida.getDate().getMonth(), txtFechaSalida.getDate().getDate()));
+				txtFechaSalida.getDate().getMonth() + 1, txtFechaSalida.getDate().getDate()));
 		var valor = txtValor.getText();
 		var formaPago = String.valueOf(txtFormaPago.getSelectedItem());
 		Reservas reserva = new Reservas(entrada, salida, valor, formaPago);

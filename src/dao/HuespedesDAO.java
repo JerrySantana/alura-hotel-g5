@@ -123,7 +123,7 @@ public class HuespedesDAO {
 		try {
 			var string = "";
 			if (parametro.getClass() == String.class) {
-				string = "nombre = ? or apellido = ?";
+				string = "apellido = ?";
 			}
 			if (parametro.getClass() == Integer.class) {
 				string = "id = ?";
@@ -137,7 +137,6 @@ public class HuespedesDAO {
 				final ResultSet resultSet;
 				if (parametro.getClass() == String.class) {
 					statement.setString(1, String.valueOf(parametro));
-					statement.setString(2, String.valueOf(parametro));
 				} else if (parametro.getClass() == Integer.class) {
 					statement.setInt(1, (Integer) parametro);
 				}

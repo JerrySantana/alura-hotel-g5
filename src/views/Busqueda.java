@@ -7,6 +7,11 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.DataFormatException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,6 +29,8 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.HuespedesController;
 import controller.ReservasController;
+import modelo.Huespedes;
+import modelo.Reservas;
 
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
@@ -72,10 +79,22 @@ public class Busqueda extends JFrame {
 		setUndecorated(true);
 
 		txtBuscar = new JTextField();
+		txtBuscar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				txtBuscar.setFocusable(true);
+				txtBuscar.setText("");
+				txtBuscar.setForeground(Color.BLACK);
+			}
+		});
 		txtBuscar.setBounds(536, 127, 193, 31);
 		txtBuscar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		contentPane.add(txtBuscar);
 		txtBuscar.setColumns(10);
+		txtBuscar.setText("Id, Apellido o Fecha (yyyy-mm-dd).");
+		txtBuscar.setForeground(Color.gray);
+		txtBuscar.setToolTipText("Busqueda por Apellido, Id de reserva o de huesped o por fecha con formato (yyyy-mm-dd).");
+		txtBuscar.setFocusable(false);
 
 		JLabel lblNewLabel_4 = new JLabel("SISTEMA DE BÚSQUEDA");
 		lblNewLabel_4.setForeground(new Color(12, 138, 199));
@@ -92,6 +111,7 @@ public class Busqueda extends JFrame {
 		tbReservas = new JTable();
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
+		tbReservas.setRowSelectionAllowed(true);
 		modeloReserva = (DefaultTableModel) tbReservas.getModel();
 		modeloReserva.addColumn("Numero de Reserva");
 		modeloReserva.addColumn("Fecha Check In");
@@ -106,6 +126,7 @@ public class Busqueda extends JFrame {
 		tbHuespedes = new JTable();
 		tbHuespedes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbHuespedes.setFont(new Font("Roboto", Font.PLAIN, 16));
+		tbHuespedes.setRowSelectionAllowed(true);
 		modeloHuesped = (DefaultTableModel) tbHuespedes.getModel();
 		modeloHuesped.addColumn("Número de Huesped");
 		modeloHuesped.addColumn("Nombre");
@@ -219,10 +240,10 @@ public class Busqueda extends JFrame {
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtBuscar.getText().equals("")) {
-					busquedaTotal();
+				if (txtBuscar.getText().equals("Id, Apellido o Fecha (yyyy-mm-dd).") || txtBuscar.getText().equals("")) {
+					listar();
 				} else {
-					busquedaPorParametro();
+					buscar();
 				}
 			}
 		});
@@ -269,7 +290,7 @@ public class Busqueda extends JFrame {
 		setResizable(false);
 	}
 
-	protected void busquedaTotal() {
+	protected void listar() {
 		var huespedes = huespedesController.listarTodos();
 		var reservas = reservasController.listarTodas();
 		modeloHuesped.setRowCount(0);
@@ -289,9 +310,56 @@ public class Busqueda extends JFrame {
 		}
 	}
 
-	protected void busquedaPorParametro() {
-		// TODO Auto-generated method stub
-
+	protected void buscar() {
+		modeloHuesped.setRowCount(0);
+		modeloReserva.setRowCount(0);
+		Object parametro;
+		List<Huespedes> huespedes = new ArrayList<>();
+		List<Reservas> reservas = new ArrayList<>();
+		
+		if (verificarInteger()) {
+			parametro = Integer.parseInt(txtBuscar.getText());
+			huespedes = huespedesController.buscarPorParametro(parametro);
+			reservas = reservasController.buscarPorParametro(parametro);
+		} else if (verificarDate()) {
+			parametro = Date.valueOf(txtBuscar.getText());
+			reservas = reservasController.buscarPorParametro(parametro);
+		} else {
+			parametro = txtBuscar.getText();
+			huespedes = huespedesController.buscarPorParametro(parametro);
+		}
+		
+		try {
+			huespedes.forEach(huesped -> {
+				modeloHuesped.addRow(new Object[] { huesped.getId(), huesped.getNombre(), huesped.getApellido(),
+						huesped.getFechaNacimiento(), huesped.getNacionalidad(), huesped.getTelefono(),
+						huesped.getReserva_id() });
+			});
+			reservas.forEach(reserva -> {
+				modeloReserva.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(), reserva.getFechaSalida(),
+						reserva.getValor(), reserva.getFormaDePago()});
+			});
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
+	protected boolean verificarInteger() {
+		try {
+			Integer.parseInt(txtBuscar.getText());
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+	
+	protected boolean verificarDate() {
+		try {
+			Date.valueOf(txtBuscar.getText());
+			return true;
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
 	}
 
 //Código que permite mover la ventana por la pantalla según la posición de "x" y "y"
