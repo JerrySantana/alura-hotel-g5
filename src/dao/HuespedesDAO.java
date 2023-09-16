@@ -50,12 +50,12 @@ public class HuespedesDAO {
 		}
 	}
 
-	public Integer eliminar(Integer id) {
+	public Integer eliminar(Integer reserva_id) {
 		try {
-			final PreparedStatement statement = connection.prepareStatement("delete from huespedes where id = ?");
+			final PreparedStatement statement = connection.prepareStatement("delete from huespedes where reserva_id = ?");
 
 			try (statement) {
-				statement.setInt(1, id);
+				statement.setInt(1, reserva_id);
 
 				statement.execute();
 

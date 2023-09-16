@@ -8,6 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.zip.DataFormatException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -266,6 +269,12 @@ public class Busqueda extends JFrame {
 		btnEditar.setBounds(635, 508, 122, 35);
 		btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEditar);
+		btnEditar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+//				editarReserva();
+			}
+		});
 
 		JLabel lblEditar = new JLabel("EDITAR");
 		lblEditar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -280,6 +289,12 @@ public class Busqueda extends JFrame {
 		btnEliminar.setBounds(767, 508, 122, 35);
 		btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEliminar);
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				eliminarReserva();
+			}
+		});
 
 		JLabel lblEliminar = new JLabel("ELIMINAR");
 		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -288,9 +303,10 @@ public class Busqueda extends JFrame {
 		lblEliminar.setBounds(0, 0, 122, 35);
 		btnEliminar.add(lblEliminar);
 		setResizable(false);
+		listar();
 	}
 
-	protected void listar() {
+	private void listar() {
 		var huespedes = huespedesController.listarTodos();
 		var reservas = reservasController.listarTodas();
 		modeloHuesped.setRowCount(0);
@@ -310,7 +326,7 @@ public class Busqueda extends JFrame {
 		}
 	}
 
-	protected void buscar() {
+	private void buscar() {
 		modeloHuesped.setRowCount(0);
 		modeloReserva.setRowCount(0);
 		Object parametro;
@@ -344,7 +360,62 @@ public class Busqueda extends JFrame {
 		}
 	}
 	
-	protected boolean verificarInteger() {
+	private void eliminarReserva() {
+		try {
+			var fila = tbReservas.getSelectedRow();
+			var columna = (Integer) modeloReserva.getValueAt(fila, 0);
+			if (fila >= 0 && columna != null) {
+				huespedesController.eliminar(columna);
+				reservasController.eliminar(columna);
+			}
+			JOptionPane.showMessageDialog(null, "Datos eliminados correctamente.");
+			listar();
+		} catch (NullPointerException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+//	private void editarReserva() {
+//		try {
+//			var fila = tbReservas.getSelectedRow();
+//			var columna = (Integer) modeloReserva.getValueAt(fila, 0);
+//			var fechaSalidaEditada =  modeloReserva.getValueAt(fila, 2).toString();
+//			var formaPagoEditada = modeloReserva.getValueAt(fila, 4);
+//			var fechaEntrada =  modeloReserva.getValueAt(fila, 1).toString();
+//			var valor = calcularValor(LocalDate.parse(fechaEntrada), LocalDate.parse(fechaSalidaEditada));
+//			if (!valor.equals("") && !formaPagoEditada.equals("")) {
+//				reservasController.modificar(columna, Date.valueOf(fechaSalidaEditada), valor, String.valueOf(formaPagoEditada));
+//				JOptionPane.showMessageDialog(null, "Datos modificados correctamente.");
+//				listar();
+//			}
+//			
+//		} catch (IllegalArgumentException e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
+	
+	private boolean compararFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
+		if (fechaEntrada == null && fechaSalida == null) {
+			return false;
+		}
+		if (!fechaSalida.isAfter(fechaEntrada)) {
+			return false;
+		}
+		return true;
+	}
+	
+	private String calcularValor(LocalDate fechaEntrada, LocalDate fechaSalida) {
+		if (!compararFechas(fechaEntrada, fechaSalida)) {
+			return "";
+		}
+		try {
+			return String.valueOf(fechaEntrada.datesUntil(fechaSalida).count() * 100);
+		} catch (NumberFormatException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	private boolean verificarInteger() {
 		try {
 			Integer.parseInt(txtBuscar.getText());
 			return true;
@@ -353,7 +424,7 @@ public class Busqueda extends JFrame {
 		}
 	}
 	
-	protected boolean verificarDate() {
+	private boolean verificarDate() {
 		try {
 			Date.valueOf(txtBuscar.getText());
 			return true;

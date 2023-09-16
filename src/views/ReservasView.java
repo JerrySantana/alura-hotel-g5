@@ -328,7 +328,7 @@ public class ReservasView extends JFrame {
 	}
 
 	@SuppressWarnings("deprecation")
-	protected boolean compararFechaActual() {
+	private boolean compararFechaActual() {
 		var fechaActual = LocalDate.now();
 		var entrada = LocalDate.of(txtFechaEntrada.getDate().getYear() + 1900, txtFechaEntrada.getDate().getMonth() + 1,
 				txtFechaEntrada.getDate().getDate());
@@ -341,7 +341,7 @@ public class ReservasView extends JFrame {
 	}
 
 	@SuppressWarnings("deprecation")
-	protected void calcularValor() {
+	private void calcularValor() {
 		var entrada = LocalDate.of(txtFechaEntrada.getDate().getYear() + 1900, txtFechaEntrada.getDate().getMonth() + 1,
 				txtFechaEntrada.getDate().getDate());
 		var salida = LocalDate.of(txtFechaSalida.getDate().getYear() + 1900, txtFechaSalida.getDate().getMonth() + 1,
@@ -355,7 +355,7 @@ public class ReservasView extends JFrame {
 	}
 
 	@SuppressWarnings("deprecation")
-	protected void reservar() {
+	private void reservar() {
 		var entrada = Date.valueOf(LocalDate.of(txtFechaEntrada.getDate().getYear() + 1900,
 				txtFechaEntrada.getDate().getMonth() + 1, txtFechaEntrada.getDate().getDate()));
 		var salida = Date.valueOf(LocalDate.of(txtFechaSalida.getDate().getYear() + 1900,

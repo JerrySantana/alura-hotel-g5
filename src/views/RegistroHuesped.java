@@ -280,6 +280,7 @@ public class RegistroHuesped extends JFrame {
 				if (txtNombre.getText() != "" && txtApellido.getText() != "" && txtFechaN.getDate() != null
 						&& txtTelefono.getText() != "") {
 					guardarRegistro();
+					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
 				}
@@ -348,7 +349,7 @@ public class RegistroHuesped extends JFrame {
 	}
 
 	@SuppressWarnings("deprecation")
-	protected void guardarRegistro() {
+	private void guardarRegistro() {
 		var nombre = txtNombre.getText();
 		var apellido = txtApellido.getText();
 		var fechaNacimiento = Date.valueOf(LocalDate.of(txtFechaN.getDate().getYear() + 1900,
@@ -358,8 +359,8 @@ public class RegistroHuesped extends JFrame {
 		Huespedes huesped = new Huespedes(nombre, apellido, fechaNacimiento, nacionalidad, telefono);
 		huesped.setReserva_id(ReservasView.reservaId);
 		huespedesController.guardar(huesped);
-		JOptionPane.showMessageDialog(null, "Registro guardado correctamente.");
-
+		Exito exito = new Exito();
+		exito.setVisible(true);
 	}
 
 	// Código que permite mover la ventana por la pantalla según la posición de "x"

@@ -23,8 +23,8 @@ public class ReservasController {
 		return reservasDAO.eliminar(id);
 	}
 
-	public int modificar(Integer id, Date fechaSalida, String valor) {
-		return reservasDAO.modificar(id, fechaSalida, valor);
+	public int modificar(Integer id, Date fechaSalida, String valor, String formaPago) {
+		return reservasDAO.modificar(id, fechaSalida, valor, formaPago);
 	}
 
 	public List<Reservas> listarTodas() {

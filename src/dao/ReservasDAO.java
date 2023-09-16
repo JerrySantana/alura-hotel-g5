@@ -64,15 +64,16 @@ public class ReservasDAO {
 		}
 	}
 
-	public Integer modificar(Integer id, Date fechaSalida, String valor) {
+	public Integer modificar(Integer id, Date fechaSalida, String valor, String formaPago) {
 		try {
 			final PreparedStatement statement = connection
-					.prepareStatement("update reservas set " + "fechaSalida = ?" + ", valor = ?" + " where id = ?");
+					.prepareStatement("update reservas set " + "fechaSalida = ?" + ", valor = ?" + ", formaPago = ?" + " where id = ?");
 
 			try (statement) {
 				statement.setString(1, fechaSalida.toString());
 				statement.setString(2, valor);
-				statement.setInt(3, id);
+				statement.setString(3, formaPago);
+				statement.setInt(4, id);
 
 				return statement.getUpdateCount();
 			}
