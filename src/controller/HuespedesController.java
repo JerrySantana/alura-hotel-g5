@@ -18,11 +18,11 @@ public class HuespedesController {
 		return huespedesDAO.guardar(huesped);
 	}
 
-	public int eliminar(Integer id) {
-		return huespedesDAO.eliminar(id);
+	public int eliminar(Integer reserva_id) {
+		return huespedesDAO.eliminar(reserva_id);
 	}
 
-	public int modificar(Integer id, String nacionalidad, String telefono) {
+	public boolean modificar(Integer id, String nacionalidad, String telefono) {
 		return huespedesDAO.modificar(id, nacionalidad, telefono);
 	}
 

@@ -8,12 +8,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -96,7 +94,8 @@ public class Busqueda extends JFrame {
 		txtBuscar.setColumns(10);
 		txtBuscar.setText("Id, Apellido o Fecha (yyyy-mm-dd).");
 		txtBuscar.setForeground(Color.gray);
-		txtBuscar.setToolTipText("Busqueda por Apellido, Id de reserva o de huesped o por fecha con formato (yyyy-mm-dd).");
+		txtBuscar.setToolTipText(
+				"Busqueda por Apellido, Id de reserva o de huesped o por fecha con formato (yyyy-mm-dd).");
 		txtBuscar.setFocusable(false);
 
 		JLabel lblNewLabel_4 = new JLabel("SISTEMA DE BÚSQUEDA");
@@ -243,7 +242,8 @@ public class Busqueda extends JFrame {
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtBuscar.getText().equals("Id, Apellido o Fecha (yyyy-mm-dd).") || txtBuscar.getText().equals("")) {
+				if (txtBuscar.getText().equals("Id, Apellido o Fecha (yyyy-mm-dd).")
+						|| txtBuscar.getText().equals("")) {
 					listar();
 				} else {
 					buscar();
@@ -272,7 +272,11 @@ public class Busqueda extends JFrame {
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				editarReserva();
+				if (tbHuespedes.isFocusOwner()) {
+					editarHuesped();
+				} else if (tbReservas.isFocusOwner()) {
+					editarReserva();
+				}
 			}
 		});
 
@@ -292,7 +296,11 @@ public class Busqueda extends JFrame {
 		btnEliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				eliminarReserva();
+				if (tbHuespedes.isFocusOwner()) {
+					eliminarHuesped();
+				} else if (tbReservas.isFocusOwner()) {
+					eliminarReserva();
+				}
 			}
 		});
 
@@ -318,8 +326,8 @@ public class Busqueda extends JFrame {
 						huesped.getReserva_id() });
 			});
 			reservas.forEach(reserva -> {
-				modeloReserva.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(), reserva.getFechaSalida(),
-						reserva.getValor(), reserva.getFormaDePago()});
+				modeloReserva.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(),
+						reserva.getFechaSalida(), reserva.getValor(), reserva.getFormaDePago() });
 			});
 		} catch (Exception e) {
 			throw e;
@@ -332,7 +340,7 @@ public class Busqueda extends JFrame {
 		Object parametro;
 		List<Huespedes> huespedes = new ArrayList<>();
 		List<Reservas> reservas = new ArrayList<>();
-		
+
 		if (verificarInteger()) {
 			parametro = Integer.parseInt(txtBuscar.getText());
 			huespedes = huespedesController.buscarPorParametro(parametro);
@@ -343,8 +351,8 @@ public class Busqueda extends JFrame {
 		} else {
 			parametro = txtBuscar.getText();
 			huespedes = huespedesController.buscarPorParametro(parametro);
-		}
-		
+		} 
+
 		try {
 			huespedes.forEach(huesped -> {
 				modeloHuesped.addRow(new Object[] { huesped.getId(), huesped.getNombre(), huesped.getApellido(),
@@ -352,48 +360,91 @@ public class Busqueda extends JFrame {
 						huesped.getReserva_id() });
 			});
 			reservas.forEach(reserva -> {
-				modeloReserva.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(), reserva.getFechaSalida(),
-						reserva.getValor(), reserva.getFormaDePago()});
+				modeloReserva.addRow(new Object[] { reserva.getId(), reserva.getFechaEntrada(),
+						reserva.getFechaSalida(), reserva.getValor(), reserva.getFormaDePago() });
 			});
 		} catch (Exception e) {
 			throw e;
 		}
 	}
-	
+
 	private void eliminarReserva() {
 		try {
-			var fila = tbReservas.getSelectedRow();
-			var columna = (Integer) modeloReserva.getValueAt(fila, 0);
-			if (fila >= 0 && columna != null) {
-				huespedesController.eliminar(columna);
-				reservasController.eliminar(columna);
+			var reserva = tbReservas.getSelectedRow();
+			var idReserva = (Integer) modeloReserva.getValueAt(reserva, 0);
+			if (reserva >= 0 && idReserva != null) {
+				huespedesController.eliminar(idReserva);
+				reservasController.eliminar(idReserva);
+				JOptionPane.showMessageDialog(null, "Datos eliminados correctamente.");
+			} else {
+				JOptionPane.showMessageDialog(null, "Hubo un error al eliminar los datos, intenta nuevamente.");
 			}
-			JOptionPane.showMessageDialog(null, "Datos eliminados correctamente.");
 			listar();
 		} catch (NullPointerException e) {
+			listar();
 			throw new RuntimeException(e);
 		}
 	}
-	
-//	private void editarReserva() {
-//		try {
-//			var fila = tbReservas.getSelectedRow();
-//			var columna = (Integer) modeloReserva.getValueAt(fila, 0);
-//			var fechaSalidaEditada =  modeloReserva.getValueAt(fila, 2).toString();
-//			var formaPagoEditada = modeloReserva.getValueAt(fila, 4);
-//			var fechaEntrada =  modeloReserva.getValueAt(fila, 1).toString();
-//			var valor = calcularValor(LocalDate.parse(fechaEntrada), LocalDate.parse(fechaSalidaEditada));
-//			if (!valor.equals("") && !formaPagoEditada.equals("")) {
-//				reservasController.modificar(columna, Date.valueOf(fechaSalidaEditada), valor, String.valueOf(formaPagoEditada));
-//				JOptionPane.showMessageDialog(null, "Datos modificados correctamente.");
-//				listar();
-//			}
-//			
-//		} catch (IllegalArgumentException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
-	
+
+	private void eliminarHuesped() {
+		try {
+			var huesped = tbHuespedes.getSelectedRow();
+			var idReserva = (Integer) modeloHuesped.getValueAt(huesped, 6);
+			if (huesped >= 0 && idReserva != null){
+				huespedesController.eliminar(idReserva);
+				reservasController.eliminar(idReserva);
+				JOptionPane.showMessageDialog(null, "Datos eliminados correctamente.");
+			} else {
+				JOptionPane.showMessageDialog(null, "Hubo un error al eliminar los datos, intenta nuevamente.");
+			}
+			listar();
+		} catch (NullPointerException e) {
+			listar();
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void editarReserva() {
+		try {
+			var reserva = tbReservas.getSelectedRow();
+			var id = (Integer) modeloReserva.getValueAt(reserva, 0);
+			var fechaSalidaEditada = modeloReserva.getValueAt(reserva, 2).toString();
+			var formaPagoEditada = modeloReserva.getValueAt(reserva, 4).toString();
+			var fechaEntrada = modeloReserva.getValueAt(reserva, 1).toString();
+			var valor = calcularValor(LocalDate.parse(fechaEntrada), LocalDate.parse(fechaSalidaEditada));
+			if (!valor.equals("") && !formaPagoEditada.equals("")){
+				reservasController.modificar(id, Date.valueOf(fechaSalidaEditada), valor, formaPagoEditada);
+				JOptionPane.showMessageDialog(null, "Datos modificados correctamente.");
+			} else {
+				JOptionPane.showMessageDialog(null, "Hubo un error al modificar los datos, intenta nuevamente, no dejes campos vacíos.");
+			}
+			listar();
+		} catch (DateTimeParseException e) {
+			listar();
+			JOptionPane.showMessageDialog(null, "Asegurate de escribir un formato correcto.");
+		}
+	}
+
+	private void editarHuesped() {
+		try {
+			var huesped = tbHuespedes.getSelectedRow();
+			var id = (Integer) modeloHuesped.getValueAt(huesped, 0);
+			var nacionalidadEditada = modeloHuesped.getValueAt(huesped, 4).toString();
+			var telefonoEditado = modeloHuesped.getValueAt(huesped, 5).toString();
+			if (!nacionalidadEditada.equals("") && !telefonoEditado.equals("")){
+				huespedesController.modificar(id, nacionalidadEditada, telefonoEditado);
+				JOptionPane.showMessageDialog(null, "Datos modificados correctamente.");
+			} else {
+				JOptionPane.showMessageDialog(null, "Hubo un error al modificar los datos, intenta nuevamente, no dejes campos vacíos.");
+			}
+			listar();
+		} catch (IllegalArgumentException e) {
+			listar();
+			JOptionPane.showMessageDialog(null, "Asegurate de escribir un formato correcto.");
+			throw new RuntimeException(e);
+		}
+	}
+
 	private boolean compararFechas(LocalDate fechaEntrada, LocalDate fechaSalida) {
 		if (fechaEntrada == null && fechaSalida == null) {
 			return false;
@@ -401,9 +452,12 @@ public class Busqueda extends JFrame {
 		if (!fechaSalida.isAfter(fechaEntrada)) {
 			return false;
 		}
+		if (!fechaSalida.isEqual(LocalDate.now()) && !fechaSalida.isAfter(LocalDate.now())) {
+			return false;
+		}
 		return true;
 	}
-	
+
 	private String calcularValor(LocalDate fechaEntrada, LocalDate fechaSalida) {
 		if (!compararFechas(fechaEntrada, fechaSalida)) {
 			return "";
@@ -414,7 +468,7 @@ public class Busqueda extends JFrame {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	private boolean verificarInteger() {
 		try {
 			Integer.parseInt(txtBuscar.getText());
@@ -423,7 +477,7 @@ public class Busqueda extends JFrame {
 			return false;
 		}
 	}
-	
+
 	private boolean verificarDate() {
 		try {
 			Date.valueOf(txtBuscar.getText());

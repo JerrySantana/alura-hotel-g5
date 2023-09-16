@@ -64,19 +64,19 @@ public class ReservasDAO {
 		}
 	}
 
-	public Integer modificar(Integer id, Date fechaSalida, String valor, String formaPago) {
+	public boolean modificar(Integer id, Date fechaSalida, String valor, String formaPago) {
 		try {
-			final PreparedStatement statement = connection
-					.prepareStatement("update reservas set " + "fechaSalida = ?" + ", valor = ?" + ", formaPago = ?" + " where id = ?");
+			final PreparedStatement statement = connection.prepareStatement(
+					"update reservas set " + "fechaSalida = ?" + ", valor = ?" + ", formaPago = ?" + " where id = ?");
 
 			try (statement) {
 				statement.setString(1, fechaSalida.toString());
 				statement.setString(2, valor);
 				statement.setString(3, formaPago);
 				statement.setInt(4, id);
-
-				return statement.getUpdateCount();
+				statement.execute();
 			}
+			return true;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

@@ -23,7 +23,7 @@ public class ReservasController {
 		return reservasDAO.eliminar(id);
 	}
 
-	public int modificar(Integer id, Date fechaSalida, String valor, String formaPago) {
+	public boolean modificar(Integer id, Date fechaSalida, String valor, String formaPago) {
 		return reservasDAO.modificar(id, fechaSalida, valor, formaPago);
 	}
 

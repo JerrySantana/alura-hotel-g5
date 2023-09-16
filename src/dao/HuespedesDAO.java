@@ -52,7 +52,8 @@ public class HuespedesDAO {
 
 	public Integer eliminar(Integer reserva_id) {
 		try {
-			final PreparedStatement statement = connection.prepareStatement("delete from huespedes where reserva_id = ?");
+			final PreparedStatement statement = connection
+					.prepareStatement("delete from huespedes where reserva_id = ?");
 
 			try (statement) {
 				statement.setInt(1, reserva_id);
@@ -68,7 +69,7 @@ public class HuespedesDAO {
 		}
 	}
 
-	public Integer modificar(Integer id, String nacionalidad, String telefono) {
+	public boolean modificar(Integer id, String nacionalidad, String telefono) {
 		try {
 			final PreparedStatement statement = connection
 					.prepareStatement("update huespedes set " + "nacionalidad = ?" + ", telefono = ?" + "where id = ?");
@@ -78,8 +79,9 @@ public class HuespedesDAO {
 				statement.setString(2, telefono);
 				statement.setInt(3, id);
 
-				return statement.getUpdateCount();
+				statement.execute();
 			}
+			return true;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

@@ -11,6 +11,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.sql.Date;
 import java.text.Format;
 import java.time.LocalDate;
+import java.time.Period;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -27,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import controller.HuespedesController;
+import controller.ReservasController;
 import modelo.Huespedes;
 
 @SuppressWarnings("serial")
@@ -43,6 +45,7 @@ public class RegistroHuesped extends JFrame {
 	private JLabel labelAtras;
 	int xMouse, yMouse;
 	private HuespedesController huespedesController = new HuespedesController();
+	private ReservasController reservasController = new ReservasController();
 
 	/**
 	 * Launch the application.
@@ -352,15 +355,20 @@ public class RegistroHuesped extends JFrame {
 	private void guardarRegistro() {
 		var nombre = txtNombre.getText();
 		var apellido = txtApellido.getText();
-		var fechaNacimiento = Date.valueOf(LocalDate.of(txtFechaN.getDate().getYear() + 1900,
-				txtFechaN.getDate().getMonth(), txtFechaN.getDate().getDate()));
+		var fechaNacimiento = LocalDate.of(txtFechaN.getDate().getYear() + 1900, txtFechaN.getDate().getMonth() + 1,
+				txtFechaN.getDate().getDate());
 		var nacionalidad = String.valueOf(txtNacionalidad.getSelectedItem());
 		var telefono = txtTelefono.getText();
-		Huespedes huesped = new Huespedes(nombre, apellido, fechaNacimiento, nacionalidad, telefono);
-		huesped.setReserva_id(ReservasView.reservaId);
-		huespedesController.guardar(huesped);
-		Exito exito = new Exito();
-		exito.setVisible(true);
+		if (Period.between(fechaNacimiento, LocalDate.now()).getYears() >= 18) {
+			Huespedes huesped = new Huespedes(nombre, apellido, Date.valueOf(fechaNacimiento), nacionalidad, telefono);
+			huesped.setReserva_id(ReservasView.reservaId);
+			huespedesController.guardar(huesped);
+			Exito exito = new Exito();
+			exito.setVisible(true);
+		} else {
+			JOptionPane.showMessageDialog(null, "Debes ser mayor de 18 años para poder realizar una reserva.");
+			reservasController.eliminar(ReservasView.reservaId);
+		}
 	}
 
 	// Código que permite mover la ventana por la pantalla según la posición de "x"

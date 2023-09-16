@@ -332,7 +332,7 @@ public class ReservasView extends JFrame {
 		var fechaActual = LocalDate.now();
 		var entrada = LocalDate.of(txtFechaEntrada.getDate().getYear() + 1900, txtFechaEntrada.getDate().getMonth() + 1,
 				txtFechaEntrada.getDate().getDate());
-		if (!fechaActual.isBefore(entrada)) {
+		if (!fechaActual.isBefore(entrada) && !fechaActual.isEqual(entrada)) {
 			JOptionPane.showMessageDialog(null, "La fecha de check-in debe ser mayor a la fecha actual.");
 			return false;
 		}
