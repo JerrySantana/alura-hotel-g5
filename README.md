@@ -16,3 +16,17 @@
 - Spring Security
 
 ---
+## 🗒️ Descripción:
+
+Alura Hotel es una aplicación de escritorio que busca facilitar tareas básicas del 🏨 **Hotel Alura**. Entre las tareas que se pueden realizar en esta app se encuentran:
+- Registro de reservas.
+- Registro de huespedes.
+- Buscar reservas por numero de id y por fechas de check-in y check-out.
+- Buscar huespedes por numero de id y por apellido.
+- Editar la fecha de salida y forma de pago de una reserva.
+- Editar la nacionalidad y el telefono de contacto de un huesped.
+- Eliminación de reservas y huespedes.
+
+---
+## 📊 Pruebas y ejemplos
+
