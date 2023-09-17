@@ -9,9 +9,11 @@ import modelo.Huespedes;
 public class HuespedesController {
 
 	private HuespedesDAO huespedesDAO;
+	private ConnectionFactory connectionFactory;
 
 	public HuespedesController() {
-		this.huespedesDAO = new HuespedesDAO(new ConnectionFactory().recuperarConexion());
+		connectionFactory = new ConnectionFactory();
+		this.huespedesDAO = new HuespedesDAO(connectionFactory.recuperarConexion());
 	}
 
 	public int guardar(Huespedes huesped) {

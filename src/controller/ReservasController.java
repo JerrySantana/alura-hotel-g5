@@ -10,9 +10,11 @@ import modelo.Reservas;
 public class ReservasController {
 
 	private ReservasDAO reservasDAO;
+	private ConnectionFactory connectionFactory;
 
 	public ReservasController() {
-		this.reservasDAO = new ReservasDAO(new ConnectionFactory().recuperarConexion());
+		connectionFactory = new ConnectionFactory();
+		this.reservasDAO = new ReservasDAO(connectionFactory.recuperarConexion());
 	}
 
 	public int guardar(Reservas reserva) {

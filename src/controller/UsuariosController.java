@@ -7,9 +7,11 @@ import modelo.Usuarios;
 public class UsuariosController {
 
 	private UsuariosDAO usuariosDAO;
+	private ConnectionFactory connectionFactory;
 
 	public UsuariosController() {
-		this.usuariosDAO = new UsuariosDAO(new ConnectionFactory().recuperarConexion());
+		connectionFactory = new ConnectionFactory();
+		this.usuariosDAO = new UsuariosDAO(connectionFactory.recuperarConexion());
 	}
 
 	public int guardar(Usuarios usuario) {

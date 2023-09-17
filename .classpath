@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-17">
 		<attributes>
+			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Java/c3p0-0.9.5.5.jar"/>
-	<classpathentry kind="lib" path="C:/Java/jcalendar/jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Java/jcalendar/jgoodies-common-1.2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Java/jcalendar/jgoodies-looks-2.4.1.jar"/>
-	<classpathentry kind="lib" path="C:/Java/jcalendar/junit-4.6.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files (x86)/MySQL/MySQL Connector 8.0/mysql-connector-j-8.1.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+	<classpathentry exported="true" kind="lib" path="C:/Java/c3p0-0.9.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Java/jcalendar/jcalendar-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Java/jcalendar/jgoodies-common-1.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Java/jcalendar/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Java/jcalendar/junit-4.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files (x86)/MySQL/MySQL Connector 8.0/mysql-connector-j-8.1.0.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>

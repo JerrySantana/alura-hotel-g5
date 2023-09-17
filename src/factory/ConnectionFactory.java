@@ -18,9 +18,9 @@ public class ConnectionFactory {
 
 	public ConnectionFactory() {
 		properties = new Properties();
-		var poolDataSource = new ComboPooledDataSource();
+		ComboPooledDataSource poolDataSource = new ComboPooledDataSource();
 		try {
-			properties.load(new FileInputStream(new File("application.properties")));
+			properties.load(new FileInputStream(new File("./application.properties")));
 			poolDataSource.setJdbcUrl(properties.getProperty("db.url"));
 			poolDataSource.setUser(properties.getProperty("db.user"));
 			poolDataSource.setPassword(properties.getProperty("db.password"));

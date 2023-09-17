@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-@SuppressWarnings({"serial"})
+@SuppressWarnings({ "serial" })
 public class Exito extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();

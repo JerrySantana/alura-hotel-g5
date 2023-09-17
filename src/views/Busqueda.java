@@ -1,7 +1,6 @@
 package views;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
@@ -33,7 +32,7 @@ import controller.ReservasController;
 import modelo.Huespedes;
 import modelo.Reservas;
 
-@SuppressWarnings({"serial", "unused"})
+@SuppressWarnings({ "serial", "unused" })
 public class Busqueda extends JFrame {
 
 	private JPanel contentPane;
@@ -351,7 +350,7 @@ public class Busqueda extends JFrame {
 		} else {
 			parametro = txtBuscar.getText();
 			huespedes = huespedesController.buscarPorParametro(parametro);
-		} 
+		}
 
 		try {
 			huespedes.forEach(huesped -> {
@@ -390,7 +389,7 @@ public class Busqueda extends JFrame {
 		try {
 			var huesped = tbHuespedes.getSelectedRow();
 			var idReserva = (Integer) modeloHuesped.getValueAt(huesped, 6);
-			if (huesped >= 0 && idReserva != null){
+			if (huesped >= 0 && idReserva != null) {
 				huespedesController.eliminar(idReserva);
 				reservasController.eliminar(idReserva);
 				JOptionPane.showMessageDialog(null, "Datos eliminados correctamente.");
@@ -412,11 +411,12 @@ public class Busqueda extends JFrame {
 			var formaPagoEditada = modeloReserva.getValueAt(reserva, 4).toString();
 			var fechaEntrada = modeloReserva.getValueAt(reserva, 1).toString();
 			var valor = calcularValor(LocalDate.parse(fechaEntrada), LocalDate.parse(fechaSalidaEditada));
-			if (!valor.equals("") && !formaPagoEditada.equals("")){
+			if (!valor.equals("") && !formaPagoEditada.equals("")) {
 				reservasController.modificar(id, Date.valueOf(fechaSalidaEditada), valor, formaPagoEditada);
 				JOptionPane.showMessageDialog(null, "Datos modificados correctamente.");
 			} else {
-				JOptionPane.showMessageDialog(null, "Hubo un error al modificar los datos, intenta nuevamente, no dejes campos vacíos.");
+				JOptionPane.showMessageDialog(null,
+						"Hubo un error al modificar los datos, intenta nuevamente, no dejes campos vacíos.");
 			}
 			listar();
 		} catch (DateTimeParseException e) {
@@ -431,11 +431,12 @@ public class Busqueda extends JFrame {
 			var id = (Integer) modeloHuesped.getValueAt(huesped, 0);
 			var nacionalidadEditada = modeloHuesped.getValueAt(huesped, 4).toString();
 			var telefonoEditado = modeloHuesped.getValueAt(huesped, 5).toString();
-			if (!nacionalidadEditada.equals("") && !telefonoEditado.equals("")){
+			if (!nacionalidadEditada.equals("") && !telefonoEditado.equals("")) {
 				huespedesController.modificar(id, nacionalidadEditada, telefonoEditado);
 				JOptionPane.showMessageDialog(null, "Datos modificados correctamente.");
 			} else {
-				JOptionPane.showMessageDialog(null, "Hubo un error al modificar los datos, intenta nuevamente, no dejes campos vacíos.");
+				JOptionPane.showMessageDialog(null,
+						"Hubo un error al modificar los datos, intenta nuevamente, no dejes campos vacíos.");
 			}
 			listar();
 		} catch (IllegalArgumentException e) {

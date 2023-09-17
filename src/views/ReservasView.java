@@ -1,7 +1,6 @@
 package views;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
@@ -31,7 +30,7 @@ import com.toedter.calendar.JDateChooser;
 import controller.ReservasController;
 import modelo.Reservas;
 
-@SuppressWarnings({"serial", "unused"})
+@SuppressWarnings({ "serial", "unused" })
 public class ReservasView extends JFrame {
 
 	private JPanel contentPane;
@@ -325,7 +324,7 @@ public class ReservasView extends JFrame {
 		btnsiguiente.setBounds(238, 493, 122, 35);
 		panel.add(btnsiguiente);
 		btnsiguiente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-		
+
 		JLabel lblNewLabel = new JLabel("Siguiente");
 		lblNewLabel.setLabelFor(btnsiguiente);
 		lblNewLabel.setBackground(SystemColor.textHighlight);

@@ -1,7 +1,6 @@
 package views;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
@@ -31,7 +30,7 @@ import controller.HuespedesController;
 import controller.ReservasController;
 import modelo.Huespedes;
 
-@SuppressWarnings({"serial", "unused"})
+@SuppressWarnings({ "serial", "unused" })
 public class RegistroHuesped extends JFrame {
 
 	private JPanel contentPane;
