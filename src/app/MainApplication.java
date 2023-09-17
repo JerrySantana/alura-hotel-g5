@@ -1,4 +1,4 @@
-package jdbc;
+package app;
 
 import java.awt.EventQueue;
 
