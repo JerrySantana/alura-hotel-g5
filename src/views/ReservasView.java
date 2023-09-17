@@ -31,7 +31,7 @@ import com.toedter.calendar.JDateChooser;
 import controller.ReservasController;
 import modelo.Reservas;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unused"})
 public class ReservasView extends JFrame {
 
 	private JPanel contentPane;
@@ -45,21 +45,21 @@ public class ReservasView extends JFrame {
 	private JLabel labelAtras;
 	private ReservasController reservasController = new ReservasController();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ReservasView frame = new ReservasView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ReservasView frame = new ReservasView();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -108,13 +108,13 @@ public class ReservasView extends JFrame {
 
 		JLabel lblCheckIn = new JLabel("FECHA DE CHECK IN");
 		lblCheckIn.setForeground(SystemColor.textInactiveText);
-		lblCheckIn.setBounds(68, 136, 169, 14);
+		lblCheckIn.setBounds(68, 136, 196, 14);
 		lblCheckIn.setFont(new Font("Roboto Black", Font.PLAIN, 18));
 		panel.add(lblCheckIn);
 
 		JLabel lblCheckOut = new JLabel("FECHA DE CHECK OUT");
 		lblCheckOut.setForeground(SystemColor.textInactiveText);
-		lblCheckOut.setBounds(68, 221, 187, 14);
+		lblCheckOut.setBounds(68, 221, 224, 14);
 		lblCheckOut.setFont(new Font("Roboto Black", Font.PLAIN, 18));
 		panel.add(lblCheckOut);
 
@@ -125,7 +125,8 @@ public class ReservasView extends JFrame {
 		panel.add(lblFormaPago);
 
 		JLabel lblTitulo = new JLabel("SISTEMA DE RESERVAS");
-		lblTitulo.setBounds(109, 60, 219, 42);
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setBounds(100, 60, 248, 42);
 		lblTitulo.setForeground(new Color(12, 138, 199));
 		lblTitulo.setFont(new Font("Roboto", Font.BOLD, 20));
 		panel.add(lblTitulo);
@@ -149,7 +150,7 @@ public class ReservasView extends JFrame {
 
 		JLabel lblValor = new JLabel("VALOR DE LA RESERVA");
 		lblValor.setForeground(SystemColor.textInactiveText);
-		lblValor.setBounds(72, 303, 196, 14);
+		lblValor.setBounds(72, 303, 220, 14);
 		lblValor.setFont(new Font("Roboto Black", Font.PLAIN, 18));
 		panel.add(lblValor);
 
@@ -324,6 +325,15 @@ public class ReservasView extends JFrame {
 		btnsiguiente.setBounds(238, 493, 122, 35);
 		panel.add(btnsiguiente);
 		btnsiguiente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+		
+		JLabel lblNewLabel = new JLabel("Siguiente");
+		lblNewLabel.setLabelFor(btnsiguiente);
+		lblNewLabel.setBackground(SystemColor.textHighlight);
+		lblNewLabel.setForeground(SystemColor.text);
+		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 20));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(0, 0, 122, 35);
+		btnsiguiente.add(lblNewLabel);
 
 	}
 
@@ -360,7 +370,7 @@ public class ReservasView extends JFrame {
 				txtFechaEntrada.getDate().getMonth() + 1, txtFechaEntrada.getDate().getDate()));
 		var salida = Date.valueOf(LocalDate.of(txtFechaSalida.getDate().getYear() + 1900,
 				txtFechaSalida.getDate().getMonth() + 1, txtFechaSalida.getDate().getDate()));
-		var valor = txtValor.getText();
+		var valor = txtValor.getText().replace(" ", "");
 		var formaPago = String.valueOf(txtFormaPago.getSelectedItem());
 		Reservas reserva = new Reservas(entrada, salida, valor, formaPago);
 		reservaId = reservasController.guardar(reserva);

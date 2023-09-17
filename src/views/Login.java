@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.UsuariosController;
 
+@SuppressWarnings("unused")
 public class Login extends JFrame {
 
 	/**
@@ -34,21 +35,21 @@ public class Login extends JFrame {
 	private JLabel labelExit;
 	private UsuariosController usuariosController;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Login frame = new Login();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -141,9 +142,10 @@ public class Login extends JFrame {
 		panel.add(separator);
 
 		JLabel labelTitulo = new JLabel("INICIAR SESIÓN");
+		labelTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		labelTitulo.setForeground(SystemColor.textHighlight);
 		labelTitulo.setFont(new Font("Roboto Black", Font.PLAIN, 26));
-		labelTitulo.setBounds(65, 149, 202, 26);
+		labelTitulo.setBounds(65, 149, 220, 26);
 		panel.add(labelTitulo);
 
 		JSeparator separator_1 = new JSeparator();

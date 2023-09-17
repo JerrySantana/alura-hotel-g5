@@ -31,7 +31,7 @@ import controller.HuespedesController;
 import controller.ReservasController;
 import modelo.Huespedes;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unused"})
 public class RegistroHuesped extends JFrame {
 
 	private JPanel contentPane;
@@ -47,25 +47,26 @@ public class RegistroHuesped extends JFrame {
 	private HuespedesController huespedesController = new HuespedesController();
 	private ReservasController reservasController = new ReservasController();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegistroHuesped frame = new RegistroHuesped();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					RegistroHuesped frame = new RegistroHuesped();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public RegistroHuesped() {
 
 		setIconImage(
@@ -219,7 +220,8 @@ public class RegistroHuesped extends JFrame {
 		contentPane.add(txtTelefono);
 
 		JLabel lblTitulo = new JLabel("REGISTRO HUÉSPED");
-		lblTitulo.setBounds(606, 55, 234, 42);
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setBounds(560, 55, 255, 42);
 		lblTitulo.setForeground(new Color(12, 138, 199));
 		lblTitulo.setFont(new Font("Roboto Black", Font.PLAIN, 23));
 		contentPane.add(lblTitulo);

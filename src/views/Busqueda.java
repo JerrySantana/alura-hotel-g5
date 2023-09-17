@@ -33,7 +33,7 @@ import controller.ReservasController;
 import modelo.Huespedes;
 import modelo.Reservas;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({"serial", "unused"})
 public class Busqueda extends JFrame {
 
 	private JPanel contentPane;
@@ -48,21 +48,21 @@ public class Busqueda extends JFrame {
 	private HuespedesController huespedesController = new HuespedesController();
 	private ReservasController reservasController = new ReservasController();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Busqueda frame = new Busqueda();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	/**
+//	 * Launch the application.
+//	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Busqueda frame = new Busqueda();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -101,7 +101,7 @@ public class Busqueda extends JFrame {
 		JLabel lblNewLabel_4 = new JLabel("SISTEMA DE BÚSQUEDA");
 		lblNewLabel_4.setForeground(new Color(12, 138, 199));
 		lblNewLabel_4.setFont(new Font("Roboto Black", Font.BOLD, 24));
-		lblNewLabel_4.setBounds(331, 62, 280, 42);
+		lblNewLabel_4.setBounds(320, 60, 300, 42);
 		contentPane.add(lblNewLabel_4);
 
 		JTabbedPane panel = new JTabbedPane(JTabbedPane.TOP);
