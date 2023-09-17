@@ -1,33 +1,34 @@
 package factory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Properties;
 
 import javax.sql.DataSource;
+import javax.swing.JOptionPane;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+
+import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvException;
 
 public class ConnectionFactory {
 
 	private DataSource dataSource;
-	private Properties properties;
+	private Dotenv dotenv;
 
 	public ConnectionFactory() {
-		properties = new Properties();
+//		properties = new Properties();
 		ComboPooledDataSource poolDataSource = new ComboPooledDataSource();
 		try {
-			properties.load(new FileInputStream(new File("./application.properties")));
-			poolDataSource.setJdbcUrl(properties.getProperty("db.url"));
-			poolDataSource.setUser(properties.getProperty("db.user"));
-			poolDataSource.setPassword(properties.getProperty("db.password"));
+			dotenv = Dotenv.configure().directory("./src/resources").load();
+			poolDataSource.setJdbcUrl(dotenv.get("db.url"));
+			poolDataSource.setUser(dotenv.get("db.user"));
+			poolDataSource.setPassword(dotenv.get("db.password"));
 			poolDataSource.setMaxPoolSize(10);
 
 			this.dataSource = poolDataSource;
-		} catch (IOException e) {
+		} catch (DotenvException e) {
+			JOptionPane.showMessageDialog(null, "Hubo un error al intentar acceder a los datos, contacta al administrador.");
 			throw new RuntimeException(e);
 		}
 	}
