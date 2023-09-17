@@ -17,6 +17,17 @@
 
 ---
 
+## 💻 Versiones y actualizaciones
+
+- v1.0
+     - Se modificó la forma de acceso a la base de datos, anteriormente se hacía mediante el uso de un archivo **application.properties** ahora se realiza mediante el uso de un archivo **.env** y de la librería <a href="https://github.com/cdimascio/dotenv-java" title="Dotenv">dotenv-java</a>.
+     Se requiere de un archivo .env (dotenv) dentro del cual se declararan la URL de la base de datos, y el usuario y contraseña para el acceso a la misma; debe tener el siguiente formato:
+          <p align="center">db.url=jdbc:mysql://localhost/nombre_base_de_datos</p>
+          <p align="center">db.user=user</p>
+          <p align="center">db.password=password</p>
+
+---
+
 ## 🗒️ Descripción:
 
 Alura Hotel es una aplicación de escritorio que busca facilitar tareas básicas del 🏨 **Hotel Alura**. Entre las tareas que se pueden realizar en esta app se encuentran:
